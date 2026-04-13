@@ -56,7 +56,7 @@ const allProducts = {
       ingredients: ['Whey Protein', 'Cocoa Powder', 'Dark Chocolate', 'Honey', 'Almonds', 'Sea Salt'],
       features: ['Rich Chocolate', 'High Protein', 'Premium Cocoa', 'Energy Boost', '20g Protein', '₹79'],
       badge: 'Popular',
-      image: '/bg_marvaproteinbar.png',
+      image: '/chatgpt.png',
       category: 'Protein Bars'
     },
     {
@@ -71,7 +71,7 @@ const allProducts = {
       ingredients: ['Whey Protein', 'Peanuts', 'Peanut Butter', 'Honey', 'Crunchy Rice', 'Sea Salt'],
       features: ['Peanut Crunch', 'Extra Protein', 'Crunchy Texture', 'High Energy', '21g Protein', '₹79'],
       badge: 'Premium',
-      image: '/chatgpt.png',
+      image: '/pachagewithbar.png',
       category: 'Protein Bars'
     },
     {
@@ -119,7 +119,7 @@ const allProducts = {
       ingredients: ['Peanut butter', 'Rosted peanuts', 'Olive oil'],
       features: ['100% Natural', '26g Protein', '300g Net Weight', 'Smooth Texture', 'No Additives', '₹165'],
       badge: 'Bestseller',
-      image: '/penaut butter-3.jpeg',
+      image: '/penautbutter.png',
       category: 'Spreads'
     }
   ]

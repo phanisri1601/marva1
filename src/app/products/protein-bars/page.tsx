@@ -51,7 +51,7 @@ const proteinBars = [
     ingredients: 'Whey Protein, Cocoa Powder, Dark Chocolate, Honey, Almonds, Sea Salt',
     features: ['Rich Chocolate', 'High Protein', 'Premium Cocoa', 'Energy Boost', '₹79'],
     badge: 'Popular',
-    image: '/bg_marvaproteinbar.png'
+    image: '/chatgpt.png'
   },
   {
     id: 104,
@@ -65,7 +65,7 @@ const proteinBars = [
     ingredients: 'Whey Protein, Peanuts, Peanut Butter, Honey, Crunchy Rice, Sea Salt',
     features: ['Peanut Crunch', 'Extra Protein', 'Crunchy Texture', 'High Energy', '₹79'],
     badge: 'Premium',
-    image: '/chatgpt.png'
+    image: '/pachagewithbar.png'
   },
   {
     id: 105,

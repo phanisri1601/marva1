@@ -23,7 +23,7 @@ const spreads = [
     ingredients: 'Peanut butter, Rosted peanuts, Olive oil',
     features: ['100% Natural', '26g Protein', '300g Net Weight', 'Smooth Texture', '₹165'],
     badge: 'Bestseller',
-    image: '/penaut butter-3.jpeg'
+    image: '/penautbutter.png'
   }
 ];
 
