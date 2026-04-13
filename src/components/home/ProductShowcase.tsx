@@ -1,55 +1,60 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/Button';
-import { ShoppingCart, Plus, Minus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Plus, Minus } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 
 export function ProductShowcase() {
   const { addToCart, updateQuantity, removeFromCart, cartItems } = useCart();
+  const router = useRouter();
+
+  const handleProductClick = (productId: number) => {
+    router.push(`/products/${productId}`);
+  };
 
   const products = [
     {
-      id: 1,
-      name: 'Peanut Butter',
-      price: '$12.99',
-      image: '/peanutbutterdrops.png',
-      hoverImage: '/peanut_bowl.png',
+      id: 301,
+      name: 'PEANUT BUTTER',
+      price: '₹165',
+      image: '/penaut butter-3.jpeg',
+      hoverImage: '/penaut butter-3.jpeg',
     },
     {
-      id: 2,
-      name: 'Protein Bar - Normal',
-      price: '$24.99',
-      image: '/bg_marvaproteinbar.png',
+      id: 101,
+      name: 'Power Bite',
+      price: '₹49',
+      image: '/proteinbar1.png',
       hoverImage: '/proteinbar1.png',
     },
     {
-      id: 3,
-      name: 'Biscuits',
-      price: '$8.99',
-      image: '/bowl.png',
-      hoverImage: '/bowl1.png',
+      id: 201,
+      name: 'BISCUITS',
+      price: '₹49',
+      image: '/biscuits-1.jpeg',
+      hoverImage: '/biscuits-1.jpeg',
     },
     {
-      id: 4,
+      id: 103,
       name: 'Protein Bar - Chocolate',
-      price: '$26.99',
+      price: '₹79',
       image: '/bg_marvaproteinbar.png',
-      hoverImage: '/proteinbar1.png',
+      hoverImage: '/bg_marvaproteinbar.png',
     },
     {
-      id: 5,
+      id: 104,
       name: 'Protein Bar - Peanut Crunch',
-      price: '$27.99',
-      image: '/bg_marvaproteinbar.png',
-      hoverImage: '/proteinbar1.png',
+      price: '₹79',
+      image: '/chatgpt.png',
+      hoverImage: '/chatgpt.png',
     },
     {
-      id: 6,
-      name: 'Protein Bar - Katora',
-      price: '$25.99',
-      image: '/bg_marvaproteinbar.png',
-      hoverImage: '/proteinbar1.png',
+      id: 102,
+      name: 'Katora',
+      price: '₹49',
+      image: '/katora.jpeg',
+      hoverImage: '/katora.jpeg',
     },
   ];
 
@@ -95,65 +100,64 @@ export function ProductShowcase() {
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-2xl overflow-hidden group relative"
+                className="bg-white rounded-2xl overflow-hidden relative cursor-pointer flex flex-col h-full"
+                onClick={() => handleProductClick(product.id)}
               >
-                {/* Product Image with Hover Effect */}
-                <div className="relative h-64 flex items-center justify-center p-4">
+                {/* Product Image with Zoom Effect */}
+                <div className="relative h-64 sm:h-64 flex items-center justify-center p-4 flex-shrink-0 overflow-hidden mx-auto w-full">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="max-h-full max-w-full object-contain transition-opacity duration-300 group-hover:opacity-0"
+                    className="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-110 mx-auto"
                   />
-                  {product.hoverImage && product.image !== product.hoverImage && (
-                    <img
-                      src={product.hoverImage}
-                      alt={`${product.name} hover`}
-                      className="absolute inset-0 max-h-full max-w-full object-contain m-auto opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    />
-                  )}
                 </div>
 
                 {/* Product Info */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                <div className="p-5 flex flex-col flex-grow">
+                  {/* Product Name */}
+                  <h3 className="text-lg font-bold text-gray-800 mb-3 leading-tight min-h-[2.5rem]">
                     {product.name}
                   </h3>
                   
+                  {/* Price and Buy Now Row */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold text-gray-900">
+                    <span className="text-xl font-bold text-gray-900">
                       {product.price}
                     </span>
+                    
+                    {/* Buy Now Button - Compact, next to price */}
+                    {quantity === 0 && (
+                      <button 
+                        className="px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition-colors duration-200 whitespace-nowrap shadow-sm"
+                        onClick={(e) => { e.stopPropagation(); handleAddToCart(product.id, product.name, product.price); }}
+                      >
+                        Buy Now
+                      </button>
+                    )}
                   </div>
+                  
+                  <div className="flex-grow"></div>
 
                   {/* Quantity Controls */}
-                  {quantity > 0 ? (
-                    <div className="flex items-center justify-center space-x-3 mb-4">
+                  {quantity > 0 && (
+                    <div className="flex items-center justify-between bg-emerald-50 rounded-xl p-2">
                       <button
-                        onClick={() => updateQuantity(product.id, quantity - 1)}
-                        className="p-2 bg-emerald-100 rounded-lg hover:bg-emerald-200 transition-colors duration-200"
+                        onClick={(e) => { e.stopPropagation(); updateQuantity(product.id, quantity - 1); }}
+                        className="p-2 bg-white rounded-lg hover:bg-emerald-100 transition-colors duration-200 shadow-sm"
                         disabled={quantity <= 1}
                       >
                         <Minus className="w-4 h-4 text-emerald-600" />
                       </button>
-                      <span className="text-lg font-semibold text-gray-800 min-w-[3rem] text-center">
-                        {quantity}
+                      <span className="text-base font-semibold text-gray-800 min-w-[3rem] text-center">
+                        {quantity} in cart
                       </span>
                       <button
-                        onClick={() => updateQuantity(product.id, quantity + 1)}
-                        className="p-2 bg-emerald-100 rounded-lg hover:bg-emerald-200 transition-colors duration-200"
+                        onClick={(e) => { e.stopPropagation(); updateQuantity(product.id, quantity + 1); }}
+                        className="p-2 bg-white rounded-lg hover:bg-emerald-100 transition-colors duration-200 shadow-sm"
                       >
                         <Plus className="w-4 h-4 text-emerald-600" />
                       </button>
                     </div>
-                  ) : (
-                    <Button 
-                      variant="primary" 
-                      size="sm"
-                      className="w-full"
-                      onClick={() => handleAddToCart(product.id, product.name, product.price)}
-                    >
-                      Buy Now
-                    </Button>
                   )}
 
                   {/* Added Badge */}

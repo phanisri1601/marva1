@@ -1,72 +1,49 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Star, ShoppingCart, Heart, Check } from 'lucide-react';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 
 const spreads = [
   {
-    id: 1,
-    name: 'Creamy Natural Peanut Butter',
-    price: 5.99,
+    id: 301,
+    name: 'PEANUT BUTTER',
+    price: 165,
     rating: 4.9,
     reviews: 203,
-    protein: '8g',
-    description: 'Pure roasted peanuts ground to perfection, creating a smooth, creamy spread without any additives.',
-    ingredients: '100% Roasted Peanuts, Sea Salt',
-    features: ['100% Natural', 'High Protein', 'No Preservatives', 'Smooth Texture'],
-    badge: 'Bestseller'
-  },
-  {
-    id: 2,
-    name: 'Crunchy Peanut Butter',
-    price: 6.49,
-    rating: 4.8,
-    reviews: 156,
-    protein: '8g',
-    description: 'Same great taste as our creamy version but with crunchy peanut pieces for extra texture.',
-    ingredients: 'Roasted Peanuts, Sea Salt, Peanut Pieces',
-    features: ['Crunchy Texture', 'High Protein', 'No Added Sugar', 'Rich Flavor'],
-    badge: 'Premium'
-  },
-  {
-    id: 3,
-    name: 'Organic Almond Butter',
-    price: 7.99,
-    rating: 4.8,
-    reviews: 145,
-    protein: '6g',
-    description: 'Premium organic almonds roasted and ground to create a rich, nutty butter perfect for health-conscious consumers.',
-    ingredients: 'Organic Roasted Almonds, Sea Salt',
-    features: ['Organic', 'Vitamin E Rich', 'Smooth Texture', 'No Additives'],
-    badge: 'Organic'
-  },
-  {
-    id: 4,
-    name: 'Chocolate Hazelnut Spread',
-    price: 8.49,
-    rating: 4.7,
-    reviews: 89,
-    protein: '4g',
-    description: 'Indulgent chocolate and roasted hazelnuts blend for a luxurious spread that is still better for you.',
-    ingredients: 'Roasted Hazelnuts, Dark Chocolate, Coconut Sugar, Cocoa Powder',
-    features: ['Dark Chocolate', 'Less Sugar', 'Natural Ingredients', 'Rich Taste'],
-    badge: 'New'
+    protein: '26g',
+    calories: 580,
+    description: 'Pure roasted peanuts ground to perfection with olive oil for a smooth, creamy spread. Net Weight: 300g',
+    ingredients: 'Peanut butter, Rosted peanuts, Olive oil',
+    features: ['100% Natural', '26g Protein', '300g Net Weight', 'Smooth Texture', '₹165'],
+    badge: 'Bestseller',
+    image: '/penaut butter-3.jpeg'
   }
 ];
 
-export default function SpreadsPage() {
+function SpreadsPageContent() {
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const handleAddToCart = (productId: number, productName: string, productPrice: number) => {
+    addToCart(productId, productName, `₹${productPrice}`);
+  };
+
+  const handleProductClick = (productId: number) => {
+    router.push(`/products/${productId}`);
+  };
+
   return (
-    <AuthProvider>
-      <CartProvider>
-        <div className="min-h-screen bg-gray-50">
-          <Navigation />
-          
-          <section className="pt-32 pb-20 bg-gradient-to-br from-orange-50 to-red-50">
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      
+      <section className="pt-32 pb-20 bg-gradient-to-br from-orange-50 to-red-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -116,12 +93,17 @@ export default function SpreadsPage() {
                     initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="bg-white rounded-2xl shadow-xl overflow-hidden group"
+                    className="bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer"
+                    onClick={() => handleProductClick(product.id)}
                   >
                     <div className="md:flex">
                       <div className="md:w-1/2">
-                        <div className="h-64 bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center">
-                          <div className="text-8xl text-orange-600 opacity-50">🥜</div>
+                        <div className="h-64 bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center p-4">
+                          <img
+                            src={product.image || '/peanutbutterdrops.png'}
+                            alt={product.name}
+                            className="max-h-full max-w-full object-contain"
+                          />
                         </div>
                       </div>
                       
@@ -190,7 +172,7 @@ export default function SpreadsPage() {
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-3xl font-bold text-gray-900">${product.price}</span>
+                          <span className="text-3xl font-bold text-gray-900">₹{product.price}</span>
                           
                           <div className="flex gap-2">
                             <motion.button
@@ -200,7 +182,7 @@ export default function SpreadsPage() {
                             >
                               <Heart className="w-5 h-5 text-orange-600" />
                             </motion.button>
-                            <Button variant="primary" size="sm">
+                            <Button variant="primary" size="sm" onClick={(e) => { e?.stopPropagation(); handleAddToCart(product.id, product.name, product.price); }}>
                               Add to Cart
                             </Button>
                           </div>
@@ -215,6 +197,14 @@ export default function SpreadsPage() {
 
           <Footer />
         </div>
+  );
+}
+
+export default function SpreadsPage() {
+  return (
+    <AuthProvider>
+      <CartProvider>
+        <SpreadsPageContent />
       </CartProvider>
     </AuthProvider>
   );

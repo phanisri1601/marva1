@@ -1,61 +1,28 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Star, ShoppingCart, Heart, Check } from 'lucide-react';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 
 const biscuits = [
   {
-    id: 1,
-    name: 'Natural Oat & Honey Biscuits',
-    price: 4.49,
-    rating: 4.6,
-    reviews: 89,
-    calories: 120,
-    description: 'Whole grain oats sweetened with pure honey, perfect for a wholesome breakfast or snack.',
-    ingredients: 'Whole Grain Oats, Honey, Wheat Flour, Butter, Sea Salt, Natural Vanilla',
-    features: ['Whole Grain', 'Honey Sweetened', 'Baked Fresh', 'No Preservatives'],
-    badge: 'Bestseller'
-  },
-  {
-    id: 2,
-    name: 'Dark Chocolate Chip Cookies',
-    price: 4.99,
-    rating: 4.5,
-    reviews: 78,
-    calories: 150,
-    description: 'Rich dark chocolate chips in a soft, chewy cookie made with oat flour and natural sweeteners.',
-    ingredients: 'Oat Flour, Dark Chocolate Chips, Coconut Oil, Maple Syrup, Almonds',
-    features: ['Dark Chocolate', 'Oat Flour', 'Natural Sweetener', 'Dairy-Free Option'],
-    badge: 'New'
-  },
-  {
-    id: 3,
-    name: 'Almond & Cranberry Biscotti',
-    price: 5.49,
-    rating: 4.8,
-    reviews: 145,
-    calories: 110,
-    description: 'Traditional Italian biscotti with roasted almonds and dried cranberries, perfect with coffee.',
-    ingredients: 'Almonds, Cranberries, Whole Wheat Flour, Eggs, Olive Oil, Orange Zest',
-    features: ['Premium Almonds', 'Dried Cranberries', 'Traditional Recipe', 'Low Sugar'],
-    badge: 'Premium'
-  },
-  {
-    id: 4,
-    name: 'Coconut & Macadamia Bites',
-    price: 4.79,
-    rating: 4.4,
-    reviews: 67,
-    calories: 130,
-    description: 'Tropical delight with coconut and macadamia nuts, naturally sweetened and gluten-free.',
-    ingredients: 'Coconut, Macadamia Nuts, Almond Flour, Coconut Oil, Natural Stevia',
-    features: ['Gluten-Free', 'Tropical Flavor', 'Healthy Fats', 'Low Carb'],
-    badge: null
+    id: 201,
+    name: 'ATTA BISCUITS',
+    price: 49,
+    rating: 4.7,
+    reviews: 98,
+    calories: 140,
+    description: 'Traditional whole wheat biscuits made with pure ghee and jaggery for authentic taste.',
+    ingredients: 'Whole grain atta, Ghee, Jaggery, Almonds',
+    features: ['Whole Wheat', 'Pure Ghee', 'Natural Jaggery', 'Traditional Recipe', '₹49'],
+    badge: 'Bestseller',
+    image: '/biscuits-1.jpeg'
   }
 ];
 
@@ -63,10 +30,29 @@ export default function BiscuitsPage() {
   return (
     <AuthProvider>
       <CartProvider>
-        <div className="min-h-screen bg-gray-50">
-          <Navigation />
-          
-          <section className="pt-32 pb-20 bg-gradient-to-br from-amber-50 to-orange-50">
+        <BiscuitsPageContent />
+      </CartProvider>
+    </AuthProvider>
+  );
+}
+
+function BiscuitsPageContent() {
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const handleAddToCart = (productId: number, productName: string, productPrice: number) => {
+    addToCart(productId, productName, `₹${productPrice}`);
+  };
+
+  const handleProductClick = (productId: number) => {
+    router.push(`/products/${productId}`);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      
+      <section className="pt-32 pb-20 bg-gradient-to-br from-amber-50 to-orange-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -116,12 +102,17 @@ export default function BiscuitsPage() {
                     initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="bg-white rounded-2xl shadow-xl overflow-hidden group"
+                    className="bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer"
+                    onClick={() => handleProductClick(product.id)}
                   >
                     <div className="md:flex">
                       <div className="md:w-1/2">
-                        <div className="h-64 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
-                          <div className="text-8xl text-amber-600 opacity-50">🍪</div>
+                        <div className="h-64 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center p-4">
+                          <img
+                            src={product.image || '/bowl.png'}
+                            alt={product.name}
+                            className="max-h-full max-w-full object-contain"
+                          />
                         </div>
                       </div>
                       
@@ -187,7 +178,7 @@ export default function BiscuitsPage() {
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-3xl font-bold text-gray-900">${product.price}</span>
+                          <span className="text-3xl font-bold text-gray-900">₹{product.price}</span>
                           
                           <div className="flex gap-2">
                             <motion.button
@@ -197,7 +188,7 @@ export default function BiscuitsPage() {
                             >
                               <Heart className="w-5 h-5 text-amber-600" />
                             </motion.button>
-                            <Button variant="primary" size="sm">
+                            <Button variant="primary" size="sm" onClick={(e) => { e?.stopPropagation(); handleAddToCart(product.id, product.name, product.price); }}>
                               Add to Cart
                             </Button>
                           </div>
@@ -212,7 +203,5 @@ export default function BiscuitsPage() {
 
           <Footer />
         </div>
-      </CartProvider>
-    </AuthProvider>
   );
 }

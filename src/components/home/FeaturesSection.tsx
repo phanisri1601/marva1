@@ -76,7 +76,7 @@ export function FeaturesSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-16 bg-green-600 rounded-3xl p-8 md:p-12 text-center text-white"
+          className="mt-16 bg-emerald-500 rounded-3xl p-8 md:p-12 text-center text-white"
         >
           <h3 className="text-3xl md:text-4xl font-bold mb-4">
             Ready to Start Your Healthy Journey?
@@ -87,7 +87,7 @@ export function FeaturesSection() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-white text-green-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors"
+            className="bg-white text-emerald-500 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors"
           >
             Get Started Today
           </motion.button>

@@ -26,7 +26,7 @@ export function Navigation() {
       className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm"
     >
       <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-18 md:h-20 lg:h-24">
+        <div className="flex items-center justify-between h-20 sm:h-24 md:h-28 lg:h-32">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -36,7 +36,7 @@ export function Navigation() {
             <img
               src="/logo.png"
               alt="MARVA Logo"
-              className="h-12 w-auto sm:h-14 md:h-16 lg:h-20"
+              className="h-16 w-auto sm:h-20 md:h-24 lg:h-28"
             />
           </motion.div>
 

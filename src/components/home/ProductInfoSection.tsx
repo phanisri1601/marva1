@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { BarChart3, ClipboardList, Clock, Coffee } from 'lucide-react';
 
 const details = [
-  { icon: Coffee, label: 'Flavor', value: 'Orange, Mango, Banana, Apple.' },
-  { icon: BarChart3, label: 'Stock', value: '5000' },
-  { icon: Clock, label: 'Expire', value: '04/01/2028' },
-  { icon: ClipboardList, label: 'Review', value: '100+' },
+  { icon: Coffee, label: 'Ingredients', value: 'Peanut butter, Roasted peanuts, Olive oil' },
+  { icon: BarChart3, label: 'Net Weight', value: '300g' },
+  { icon: Clock, label: 'Protein', value: '26g per serving' },
+  { icon: ClipboardList, label: 'Rating', value: '4.9 (203 reviews)' },
 ];
 
 export function ProductInfoSection() {
@@ -41,11 +41,11 @@ export function ProductInfoSection() {
             </p>
 
             <h2 className="mt-2 text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
-              Mixlix Per Capsule
+              PEANUT BUTTER
             </h2>
 
             <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-prose">
-              Each Mixlix capsule delivers optimal nutrients for daily wellness.
+              Pure roasted peanuts ground to perfection with olive oil for a smooth, creamy spread. 100% natural with no additives.
             </p>
 
             <div className="mt-8 border-t border-gray-200">

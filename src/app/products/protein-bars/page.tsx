@@ -1,65 +1,85 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/Button';
 import { Star, ShoppingCart, Heart, Check } from 'lucide-react';
 import { CartProvider } from '@/contexts/CartContext';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 
 const proteinBars = [
   {
-    id: 1,
-    name: 'Chocolate Protein Power Bar',
-    price: 3.99,
+    id: 101,
+    name: 'POWER BITZ',
+    price: 49,
     rating: 4.8,
     reviews: 124,
-    protein: '20g',
-    calories: 200,
-    description: 'Rich chocolate flavor with 20g of premium protein to fuel your workout and recovery.',
-    ingredients: 'Whey Protein, Almonds, Dark Chocolate, Honey, Natural Flavors',
-    features: ['High Protein', 'Gluten-Free', 'No Added Sugar', 'Keto-Friendly'],
-    badge: 'Bestseller'
+    protein: '18g',
+    calories: 220,
+    description: 'Nutritious energy bites packed with seeds and natural sweetness for a healthy snack.',
+    ingredients: 'Sunflower seeds, Pumpkin seeds, Watermelon seeds, Flax seeds, Peanut butter, Dates, Honey, Cardamom powder, Oats',
+    features: ['Seed Power', 'Natural Sweetness', 'High Energy', 'No Preservatives', '₹49'],
+    badge: 'Bestseller',
+    image: '/proteinbar1.png'
   },
   {
-    id: 2,
-    name: 'Berry Blast Protein Bar',
-    price: 3.79,
+    id: 102,
+    name: 'Katora',
+    price: 49,
     rating: 4.7,
     reviews: 89,
-    protein: '18g',
-    calories: 180,
-    description: 'Antioxidant-rich mixed berries combined with smooth protein for a refreshing taste.',
-    ingredients: 'Whey Protein, Mixed Berries, Oats, Honey, Vanilla Extract',
-    features: ['Antioxidant', 'Vegan', 'Low Calorie', 'High Fiber'],
-    badge: 'New'
-  },
-  {
-    id: 3,
-    name: 'Peanut Butter Crunch',
-    price: 4.29,
-    rating: 4.9,
-    reviews: 203,
-    protein: '22g',
-    calories: 220,
-    description: 'Creamy peanut butter with crunchy pieces for the perfect protein-rich snack.',
-    ingredients: 'Whey Protein, Peanuts, Peanut Butter, Honey, Sea Salt',
-    features: ['Extra Protein', 'Crunchy Texture', 'High Energy', 'No Preservatives'],
-    badge: 'Premium'
-  },
-  {
-    id: 4,
-    name: 'Vanilla Almond Delight',
-    price: 3.99,
-    rating: 4.6,
-    reviews: 156,
-    protein: '19g',
+    protein: '16g',
     calories: 190,
-    description: 'Smooth vanilla with roasted almonds for a sophisticated protein experience.',
-    ingredients: 'Whey Protein, Almonds, Vanilla Extract, Honey, Coconut Oil',
-    features: ['Premium Ingredients', 'Smooth Texture', 'Natural Vanilla', 'Healthy Fats'],
-    badge: null
+    description: 'Traditional style protein bar with wholesome ingredients and authentic flavors.',
+    ingredients: 'Whey Protein, Oats, Honey, Dates, Mixed Nuts, Cardamom',
+    features: ['Traditional Recipe', 'High Fiber', 'Natural Energy', 'Healthy Snack', '₹49'],
+    badge: 'New',
+    image: '/katora.jpeg'
+  },
+  {
+    id: 103,
+    name: 'Protein Bar - Chocolate',
+    price: 79,
+    rating: 4.8,
+    reviews: 145,
+    protein: '20g',
+    calories: 210,
+    description: 'Rich chocolate protein bar with premium cocoa for chocolate lovers.',
+    ingredients: 'Whey Protein, Cocoa Powder, Dark Chocolate, Honey, Almonds, Sea Salt',
+    features: ['Rich Chocolate', 'High Protein', 'Premium Cocoa', 'Energy Boost', '₹79'],
+    badge: 'Popular',
+    image: '/bg_marvaproteinbar.png'
+  },
+  {
+    id: 104,
+    name: 'Protein Bar - Peanut Crunch',
+    price: 79,
+    rating: 4.9,
+    reviews: 167,
+    protein: '21g',
+    calories: 230,
+    description: 'Crunchy peanut protein bar with real peanut pieces for extra texture.',
+    ingredients: 'Whey Protein, Peanuts, Peanut Butter, Honey, Crunchy Rice, Sea Salt',
+    features: ['Peanut Crunch', 'Extra Protein', 'Crunchy Texture', 'High Energy', '₹79'],
+    badge: 'Premium',
+    image: '/chatgpt.png'
+  },
+  {
+    id: 105,
+    name: 'POWER BITZ – DARK & NUTS',
+    price: 79,
+    rating: 4.9,
+    reviews: 156,
+    protein: '15g',
+    calories: 250,
+    description: 'Premium energy bites with dark chocolate and premium nuts for a luxurious treat.',
+    ingredients: 'Almonds, Walnuts, Cashews, Pistachios, Dark chocolate, Dates',
+    features: ['Dark Chocolate', 'Premium Nuts', 'Rich Taste', 'Healthy Fats', '₹79'],
+    badge: 'Premium',
+    image: '/powerbitz-dark-ai.png'
   }
 ];
 
@@ -67,10 +87,29 @@ export default function ProteinBarsPage() {
   return (
     <AuthProvider>
       <CartProvider>
-        <div className="min-h-screen bg-gray-50">
-          <Navigation />
-          
-          <section className="pt-32 pb-20 bg-gradient-to-br from-green-50 to-amber-50">
+        <ProteinBarsPageContent />
+      </CartProvider>
+    </AuthProvider>
+  );
+}
+
+function ProteinBarsPageContent() {
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const handleAddToCart = (productId: number, productName: string, productPrice: number) => {
+    addToCart(productId, productName, `₹${productPrice}`);
+  };
+
+  const handleProductClick = (productId: number) => {
+    router.push(`/products/${productId}`);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      
+      <section className="pt-32 pb-20 bg-gradient-to-br from-green-50 to-amber-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -120,12 +159,17 @@ export default function ProteinBarsPage() {
                     initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="bg-white rounded-2xl shadow-xl overflow-hidden group"
+                    className="bg-white rounded-2xl shadow-xl overflow-hidden group cursor-pointer"
+                    onClick={() => handleProductClick(product.id)}
                   >
                     <div className="md:flex">
                       <div className="md:w-1/2">
-                        <div className="h-64 bg-gradient-to-br from-green-100 to-amber-100 flex items-center justify-center">
-                          <div className="text-8xl text-green-600 opacity-50">🥗</div>
+                        <div className="h-64 bg-gradient-to-br from-green-100 to-amber-100 flex items-center justify-center p-4">
+                          <img
+                            src={product.image || '/bg_marvaproteinbar.png'}
+                            alt={product.name}
+                            className="max-h-full max-w-full object-contain"
+                          />
                         </div>
                       </div>
                       
@@ -194,7 +238,7 @@ export default function ProteinBarsPage() {
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-3xl font-bold text-gray-900">${product.price}</span>
+                          <span className="text-3xl font-bold text-gray-900">₹{product.price}</span>
                           
                           <div className="flex gap-2">
                             <motion.button
@@ -204,7 +248,7 @@ export default function ProteinBarsPage() {
                             >
                               <Heart className="w-5 h-5 text-green-600" />
                             </motion.button>
-                            <Button variant="primary" size="sm">
+                            <Button variant="primary" size="sm" onClick={(e) => { e?.stopPropagation(); handleAddToCart(product.id, product.name, product.price); }}>
                               Add to Cart
                             </Button>
                           </div>
@@ -219,7 +263,5 @@ export default function ProteinBarsPage() {
 
           <Footer />
         </div>
-      </CartProvider>
-    </AuthProvider>
   );
 }
