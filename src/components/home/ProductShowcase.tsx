@@ -52,7 +52,7 @@ export function ProductShowcase() {
     {
       id: 102,
       name: 'Katora',
-      price: '₹49',
+      price: '₹69',
       image: '/katora.jpeg',
       hoverImage: '/katora.jpeg',
     },
